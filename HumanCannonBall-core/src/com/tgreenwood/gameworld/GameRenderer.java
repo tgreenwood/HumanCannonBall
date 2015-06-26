@@ -1,7 +1,9 @@
 package com.tgreenwood.gameworld;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tgreenwood.gameobjects.Human;
 import com.tgreenwood.hcbhelper.AssetLoader;
 
 public class GameRenderer {
@@ -20,9 +22,26 @@ public class GameRenderer {
 
 	public void render(float runTime) {
 		
+		Human human = world.getHuman();
+		
 		batcher.begin();
-        batcher.draw(AssetLoader.backgroundAnimation.getKeyFrame(runTime),
-	                0, 0, 500, 708);
+		
+		// render background with no transparency
+		batcher.disableBlending();
+		batcher.draw(AssetLoader.backgroundAnimation.getKeyFrame(runTime), 0, 0, 500, 708);
+		
+		// render human with transparency
+		batcher.enableBlending();
+		batcher.draw(
+				AssetLoader.human, 
+				human.getX(), human.getY(), 
+				human.getWidth() / 2, human.getHeight() / 2,
+				human.getWidth(), human.getHeight(),
+				1, 1,
+				(human.getRotation() * 180f / (float)Math.PI - 90f)
+				);
+		Gdx.app.log("Rotation", Float.toString(human.getRotation() * 180f / (float)Math.PI - 90f));
+		
         batcher.end();
 		
 	}

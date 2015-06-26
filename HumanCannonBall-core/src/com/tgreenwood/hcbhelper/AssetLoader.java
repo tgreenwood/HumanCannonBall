@@ -9,9 +9,14 @@ import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
 public class AssetLoader {
 
 	public static Texture[] textures = new Texture[16];
+	public static Texture hTexture;
+	
 	public static Animation backgroundAnimation;
 	
+	public static TextureRegion human;	
+	
 	public static void load() {
+		
 		
 		for (int i = 0; i < textures.length; i++) {
 			String pathFile = String.format("data/city%d.png", i);
@@ -26,12 +31,17 @@ public class AssetLoader {
 		
 		backgroundAnimation = new Animation(0.14f, backgrounds);
 		backgroundAnimation.setPlayMode(Animation.PlayMode.LOOP);
+		
+		hTexture = new Texture(Gdx.files.internal("data/human.png"));
+		human = new TextureRegion(hTexture);
+		
 	}
 
 	public static void dispose() {
 		for (Texture texture : textures) {
 			texture.dispose();
 		}
+		hTexture.dispose();
 	}
 	
 }

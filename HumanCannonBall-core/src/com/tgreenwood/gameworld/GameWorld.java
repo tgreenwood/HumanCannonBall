@@ -8,7 +8,7 @@ public class GameWorld {
 	private Human human;
 
 	public GameWorld() {
-		human = new Human(17, 12, 0.75f);
+		human = new Human(60, 60);
 	}
 	
 	public void update(float delta) {

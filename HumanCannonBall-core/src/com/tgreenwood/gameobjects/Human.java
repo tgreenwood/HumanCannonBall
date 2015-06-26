@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Human {
 
-	private Vector2 position;
+	private Vector2 position, position0;
 	private Vector2 velocity, velocity0;
 	private Vector2 acceleration;
 
@@ -14,23 +14,25 @@ public class Human {
 	
 	float time;
 	
-	public Human(int width, int height, float rotation) {
+	public Human(int width, int height) {
         this.width = width;
         this.height = height;
-		this.rotation = rotation;
-        position = new Vector2(0, 0);
-        velocity0 = new Vector2(100, 100);
-        velocity = velocity0;
-        acceleration = new Vector2(0, 10);
+        this.position = new Vector2(0, 0);
+        this.position0 = new Vector2(0, 400);
+        this.velocity0 = new Vector2(200, 400);
+        this.velocity = velocity0;
+        this.acceleration = new Vector2(0, 10);
+        this.rotation = (float) Math.atan(velocity.y / velocity.x);
         time = 0;
 	}
 	
     public void update(float delta) {
 
     	time += delta;
-    	position.x = velocity.x * time;
     	velocity.y = velocity0.y - acceleration.y * time;
-    	position.y = velocity0.y * time - acceleration.y * time * time / 2;
+    	position.x = position0.x + velocity.x * time;
+    	position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
+    	rotation = (float) Math.atan(velocity.y / velocity.x);
     	
     }
 
