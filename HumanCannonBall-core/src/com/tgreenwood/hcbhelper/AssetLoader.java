@@ -11,11 +11,13 @@ public class AssetLoader {
 	public static Texture[] textures = new Texture[16];
 	public static Texture hTexture;
 	public static Texture cTexture;
+	public static Texture bTexture;
 	
 	public static Animation backgroundAnimation;
 	
 	public static TextureRegion human;	
 	public static TextureRegion cannon;	
+	public static TextureRegion base;
 
 	public static void load() {
 		
@@ -40,6 +42,9 @@ public class AssetLoader {
 		cTexture = new Texture(Gdx.files.internal("data/cannon.png"));
 		cannon = new TextureRegion(cTexture);
 		
+		bTexture = new Texture(Gdx.files.internal("data/base.png"));
+		base = new TextureRegion(bTexture);
+		
 	}
 
 	public static void dispose() {
@@ -48,6 +53,7 @@ public class AssetLoader {
 		}
 		hTexture.dispose();
 		cTexture.dispose();
+		bTexture.dispose();
 	}
 	
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Cannon {
 
 	private Vector2 position;
+	private Vector2 basePosition;
 	private float angle;
 	
 	private int width;
@@ -12,7 +13,8 @@ public class Cannon {
 	private float time;
 	
 	public Cannon(int width, int height) {
-		this.position = new Vector2(5, 350);
+		this.position = new Vector2(10, 293);
+		this.basePosition = new Vector2(-6, 300);
 		this.setAngle(0);		
 		this.width = width;
 		this.height = height;
@@ -50,6 +52,14 @@ public class Cannon {
 
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+
+	public float getBasePositionX() {
+		return basePosition.x;
+	}
+
+	public float getBasePositionY() {
+		return basePosition.y;
 	}
 
 

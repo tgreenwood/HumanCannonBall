@@ -1,5 +1,7 @@
 package com.tgreenwood.gameobjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 public class Human {
@@ -12,28 +14,35 @@ public class Human {
 	private int width;
 	private int height;
 	
-	float time;
+	private float time;
+	
+	private boolean shot = false;
 	
 	public Human(int width, int height) {
         this.width = width;
         this.height = height;
-        this.position = new Vector2(0, 0);
-        this.position0 = new Vector2(0, 400);
-        this.velocity0 = new Vector2(200, 400);
+        this.position0 = new Vector2(5, 290);
+        this.position = position0;
+        this.velocity0 = new Vector2(10, 10);
         this.velocity = velocity0;
-        this.acceleration = new Vector2(0, 10);
+        this.acceleration = new Vector2(0, 1);
         this.rotation = (float) Math.atan(velocity.y / velocity.x);
         time = 0;
 	}
 	
     public void update(float delta) {
 
-    	time += delta;
-    	
-    	velocity.y = velocity0.y - acceleration.y * time;
-    	position.x = position0.x + velocity.x * time;
-    	position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
-    	rotation = (float) Math.atan(velocity.y / velocity.x);
+    	if (Gdx.input.isKeyJustPressed(Keys.SPACE) && !shot) {
+    		shot = true;
+    	}
+
+    	if (shot) {
+    		time += delta;
+    		velocity.y = velocity0.y - acceleration.y * time;
+    		position.x = position0.x + velocity0.x * time;
+    		position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
+    		rotation = (float) Math.atan(velocity.y / velocity.x);
+    	}
     	
     }
 
@@ -55,6 +64,10 @@ public class Human {
 
     public float getRotation() {
         return rotation;
+    }
+    
+    public boolean toShot() {
+    	return shot;
     }
 	
 }

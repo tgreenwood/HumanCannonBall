@@ -11,7 +11,7 @@ public class GameWorld {
 
 	public GameWorld() {
 		human = new Human(60, 60);
-		cannon = new Cannon(60, 60);
+		cannon = new Cannon(35, 35);
 	}
 	
 	public void update(float delta) {
