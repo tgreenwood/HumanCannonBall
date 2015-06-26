@@ -2,6 +2,7 @@ package com.tgreenwood.humancannonball.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+
 import com.tgreenwood.humancannonball.HCBGame;
 
 public class DesktopLauncher {

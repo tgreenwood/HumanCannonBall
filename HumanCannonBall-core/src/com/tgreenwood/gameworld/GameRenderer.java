@@ -3,6 +3,7 @@ package com.tgreenwood.gameworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tgreenwood.gameobjects.Cannon;
 import com.tgreenwood.gameobjects.Human;
 import com.tgreenwood.hcbhelper.AssetLoader;
 
@@ -23,6 +24,7 @@ public class GameRenderer {
 	public void render(float runTime) {
 		
 		Human human = world.getHuman();
+		Cannon cannon = world.getCannon();
 		
 		batcher.begin();
 		
@@ -40,7 +42,14 @@ public class GameRenderer {
 				1, 1,
 				(human.getRotation() * 180f / (float)Math.PI - 90f)
 				);
-		Gdx.app.log("Rotation", Float.toString(human.getRotation() * 180f / (float)Math.PI - 90f));
+//		Gdx.app.log("Rotation", Float.toString(human.getRotation() * 180f / (float)Math.PI - 90f));
+		
+		batcher.draw(AssetLoader.cannon, 
+				cannon.getX(), cannon.getY(), 
+				cannon.getWidth() / 10, cannon.getHeight() / 2, 
+				cannon.getWidth(), cannon.getHeight(), 
+				1, 1, 
+				cannon.getAngle());
 		
         batcher.end();
 		

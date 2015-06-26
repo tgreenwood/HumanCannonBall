@@ -29,14 +29,12 @@ public class Human {
     public void update(float delta) {
 
     	time += delta;
+    	
     	velocity.y = velocity0.y - acceleration.y * time;
     	position.x = position0.x + velocity.x * time;
     	position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
     	rotation = (float) Math.atan(velocity.y / velocity.x);
     	
-    }
-
-    public void onClick() {
     }
 
     public float getX() {
