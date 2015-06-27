@@ -7,10 +7,12 @@ public class Cannon {
 	private Vector2 position;
 	private Vector2 basePosition;
 	private float angle;
-	
+	private boolean fixedAngle;
 	private int width;
 	private int height;
 	private float time;
+	
+	
 	
 	public Cannon(int width, int height) {
 		this.position = new Vector2(10, 293);
@@ -22,12 +24,15 @@ public class Cannon {
 	
     public void update(float delta) {
 
-    	time += delta;
-    	angle = (float) (75 * (Math.sin(time) + 1) / 2 + 15);
+    	if (!fixedAngle) {
+    		angle = (float) (75 * (Math.sin(time) + 1) / 2 + 15);
+    		time += delta * 2;
+    	}
     	
     }
 	
-	public void onClick() {
+	public void reset() {
+		setFixedAngle(false);
 	}
 
     public float getX() {
@@ -60,6 +65,14 @@ public class Cannon {
 
 	public float getBasePositionY() {
 		return basePosition.y;
+	}
+
+	public boolean isFixedAngle() {
+		return fixedAngle;
+	}
+
+	public void setFixedAngle(boolean fixedAngle) {
+		this.fixedAngle = fixedAngle;
 	}
 
 

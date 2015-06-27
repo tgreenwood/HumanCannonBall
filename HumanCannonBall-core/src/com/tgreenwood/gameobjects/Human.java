@@ -1,7 +1,5 @@
 package com.tgreenwood.gameobjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 public class Human {
@@ -15,29 +13,29 @@ public class Human {
 	private int height;
 	
 	private float time;
-	
-	private boolean shot = false;
+	private boolean canShot = false;
 	
 	public Human(int width, int height) {
         this.width = width;
         this.height = height;
-        this.position0 = new Vector2(5, 290);
+        init();
+	}
+	
+	private void init() {
+        this.position0 = new Vector2(0, 290);
         this.position = position0;
         this.velocity0 = new Vector2(10, 10);
         this.velocity = velocity0;
         this.acceleration = new Vector2(0, 1);
         this.rotation = (float) Math.atan(velocity.y / velocity.x);
         time = 0;
+        setCanShot(false);
 	}
 	
     public void update(float delta) {
 
-    	if (Gdx.input.isKeyJustPressed(Keys.SPACE) && !shot) {
-    		shot = true;
-    	}
-
-    	if (shot) {
-    		time += delta;
+    	if (canShot) {
+    		time += delta / 2;
     		velocity.y = velocity0.y - acceleration.y * time;
     		position.x = position0.x + velocity0.x * time;
     		position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
@@ -66,8 +64,16 @@ public class Human {
         return rotation;
     }
     
-    public boolean toShot() {
-    	return shot;
+    public boolean canShot() {
+    	return canShot;
+    }
+    
+    public void setCanShot(boolean value) {
+    	canShot = value;
+    }
+    
+    public void reset() {
+    	init();
     }
 	
 }
