@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.tgreenwood.gameworld.GameRenderer;
 import com.tgreenwood.gameworld.GameWorld;
-import com.tgreenwood.hcbhelper.InputHandler;
 
 public class GameScreen implements Screen {
 	

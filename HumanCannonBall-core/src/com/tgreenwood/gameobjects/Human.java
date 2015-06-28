@@ -7,8 +7,9 @@ public class Human {
 	private Vector2 position, position0;
 	private Vector2 velocity, velocity0;
 	private Vector2 acceleration;
-
-	private float rotation;
+	
+	private float absVelocity;
+	private float angle;
 	private int width;
 	private int height;
 	
@@ -18,16 +19,13 @@ public class Human {
 	public Human(int width, int height) {
         this.width = width;
         this.height = height;
+        this.acceleration = new Vector2(0, 1);
         init();
 	}
 	
 	private void init() {
-        this.position0 = new Vector2(0, 290);
+        this.position0 = new Vector2(-6, 285);
         this.position = position0;
-        this.velocity0 = new Vector2(10, 10);
-        this.velocity = velocity0;
-        this.acceleration = new Vector2(0, 1);
-        this.rotation = (float) Math.atan(velocity.y / velocity.x);
         time = 0;
         setCanShot(false);
 	}
@@ -39,7 +37,10 @@ public class Human {
     		velocity.y = velocity0.y - acceleration.y * time;
     		position.x = position0.x + velocity0.x * time;
     		position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
-    		rotation = (float) Math.atan(velocity.y / velocity.x);
+    		setAngle((float) Math.atan(velocity.y / velocity.x));
+    	} else {
+    		this.velocity0 = new Vector2((float)(absVelocity * Math.cos(Math.toRadians(getAngle())) / 3), (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
+    		this.velocity = velocity0;
     	}
     	
     }
@@ -60,10 +61,6 @@ public class Human {
         return height;
     }
 
-    public float getRotation() {
-        return rotation;
-    }
-    
     public boolean canShot() {
     	return canShot;
     }
@@ -75,5 +72,28 @@ public class Human {
     public void reset() {
     	init();
     }
+
+	public float getAbsVelocity() {
+		return absVelocity;
+	}
+
+	public void setAbsVelocity(float absVelocity) {
+		this.absVelocity = absVelocity;
+	}
+
+	public float getAngle() {
+		return angle;
+	}
+
+	public void setAngle(float angle) {
+		this.angle = angle;
+	}
+	
+	public void setVelocity() {
+		this.velocity0 = new Vector2((int)(absVelocity * Math.cos(getAngle())), (int)(absVelocity * Math.sin(getAngle())));
+		this.velocity = velocity0;
+	}
+    
+    
 	
 }
