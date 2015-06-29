@@ -15,6 +15,7 @@ public class Human {
 	
 	private float time;
 	private boolean canShot = false;
+	private boolean stop = false;
 	
 	public Human(int width, int height) {
         this.width = width;
@@ -24,33 +25,32 @@ public class Human {
 	}
 	
 	private void init() {
-        this.position0 = new Vector2(-6, 285);
+        this.position0 = new Vector2(-6, 292);
         this.position = position0;
         time = 0;
         setCanShot(false);
+        setStop(false);
 	}
 	
     public void update(float delta) {
-
-    	if (canShot) {
-    		time += delta / 2;
-    		velocity.y = velocity0.y - acceleration.y * time;
-    		position.x = position0.x + velocity0.x * time;
-    		position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
-    		setAngle((float) Math.atan(velocity.y / velocity.x));
-    	} else {
-    		this.velocity0 = new Vector2((float)(absVelocity * Math.cos(Math.toRadians(getAngle())) / 3), (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
-    		this.velocity = velocity0;
+    	
+    	if (!getStop()) {
+    		if (canShot) {
+    			time += delta / 2;
+    			velocity.y = velocity0.y - acceleration.y * time;
+    			position.x = position0.x + velocity0.x * time;
+    			position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
+    			setAngle((float) Math.atan(velocity.y / velocity.x));
+    		} else {
+    			this.velocity0 = new Vector2((float)(absVelocity * Math.cos(Math.toRadians(getAngle())) / 3), (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
+    			this.velocity = velocity0;
+    		}
     	}
     	
     }
 
-    public float getX() {
-        return position.x;
-    }
-
-    public float getY() {
-        return position.y;
+    public Vector2 getPosition() {
+        return position;
     }
 
     public float getWidth() {
@@ -93,7 +93,14 @@ public class Human {
 		this.velocity0 = new Vector2((int)(absVelocity * Math.cos(getAngle())), (int)(absVelocity * Math.sin(getAngle())));
 		this.velocity = velocity0;
 	}
-    
-    
+
+	public boolean getStop() {
+		return stop;
+	}
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
 	
+    
 }

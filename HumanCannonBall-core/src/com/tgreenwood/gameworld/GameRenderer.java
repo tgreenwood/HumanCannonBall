@@ -1,7 +1,10 @@
 package com.tgreenwood.gameworld;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.tgreenwood.gameobjects.Cannon;
 import com.tgreenwood.gameobjects.Human;
 import com.tgreenwood.gameobjects.Pillow;
@@ -13,6 +16,8 @@ public class GameRenderer {
 	private GameWorld world;
 	private OrthographicCamera cam;
 	private SpriteBatch batcher;
+	private ShapeRenderer shapeRenderer;
+	private Sprite sprite;
 	
 	public GameRenderer(GameWorld world) {
 		this.world = world;
@@ -20,9 +25,17 @@ public class GameRenderer {
 		cam.setToOrtho(false, 500, 708);
 		batcher = new SpriteBatch();
 		batcher.setProjectionMatrix(cam.combined);
+		
+		sprite = new Sprite(AssetLoader.human);
+
+		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(cam.combined);
 	}
 
 	public void render(float runTime) {
+		
+		float x = 0;
+		float y = 0;
 		
 		Human human = world.getHuman();
 		Cannon cannon = world.getCannon();
@@ -58,14 +71,12 @@ public class GameRenderer {
 		
         // render human with transparency
         if (human.canShot()) {
-        	batcher.draw(
-        			AssetLoader.human, 
-        			human.getX(), human.getY(), 
-        			human.getWidth(), human.getHeight() / 2,
-        			human.getWidth(), human.getHeight(),
-        			1, 1,
-        			(human.getAngle() * 180f / (float)Math.PI - 90f)
-        			);
+        	if (pillow.contain(human.getPosition().x + 30, human.getPosition().y + 30)) {
+        		human.setStop(true);
+        	}
+        	sprite.setPosition(human.getPosition().x, human.getPosition().y);
+        	sprite.setRotation(human.getAngle() * 180f / (float)Math.PI - 90f);
+        	sprite.draw(batcher);
         }
 		
         // render cannon
@@ -86,9 +97,20 @@ public class GameRenderer {
 		
 		batcher.draw(AssetLoader.pillow, pillow.getPosition().x, pillow.getPosition().y);
 		
-        batcher.end();
+		batcher.end();
         
+        
+//        shapeRenderer.begin(ShapeType.Filled);
+//        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+//        shapeRenderer.rect(pillow.getPosition().x, pillow.getPosition().y, pillow.getWidth(), pillow.getHeight() / 3);
+//        shapeRenderer.end();
+
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+		shapeRenderer.circle(human.getPosition().x + 30, human.getPosition().y + 30, 5);
+		shapeRenderer.end();
 		
+//		shapeRenderer.circle(human.getPosition().x + 30, human.getPosition().y + 30, 5);
 	}
 
 }
