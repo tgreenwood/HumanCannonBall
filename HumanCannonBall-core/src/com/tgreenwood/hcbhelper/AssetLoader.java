@@ -14,10 +14,12 @@ public class AssetLoader {
 	public static Texture cannonT;
 	public static Texture baseT;
 	public static Texture progressBarT;
+	public static Texture pillowT;
 	
 	public static TextureRegion human;	
 	public static TextureRegion cannon;	
 	public static TextureRegion base;
+	public static TextureRegion pillow;
 	
 	public static NinePatch empty;
 	public static NinePatch full;
@@ -58,6 +60,9 @@ public class AssetLoader {
 		full = new NinePatch(new TextureRegion(progressBarT, 0, 52, 6, 12), 0, 0, 0, 0);
 		font=new BitmapFont();
 		
+		pillowT = new Texture(Gdx.files.internal("data/pillow.png"));
+		pillow = new TextureRegion(pillowT);
+		
 	}
 
 	public static void dispose() {
@@ -68,7 +73,9 @@ public class AssetLoader {
 		cannonT.dispose();
 		baseT.dispose();
 		progressBarT.dispose();
+		pillowT.dispose();
 		font.dispose();
+		
 	}
 	
 }

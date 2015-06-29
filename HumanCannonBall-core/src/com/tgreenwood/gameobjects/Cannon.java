@@ -35,12 +35,8 @@ public class Cannon {
 		setFixedAngle(false);
 	}
 
-    public float getX() {
-        return position.x;
-    }
-
-    public float getY() {
-        return position.y;
+    public Vector2 getPosition() {
+        return position;
     }
 
     public float getWidth() {
@@ -59,12 +55,8 @@ public class Cannon {
 		this.angle = angle;
 	}
 
-	public float getBasePositionX() {
-		return basePosition.x;
-	}
-
-	public float getBasePositionY() {
-		return basePosition.y;
+	public Vector2 getBasePosition() {
+		return basePosition;
 	}
 
 	public boolean isFixedAngle() {
