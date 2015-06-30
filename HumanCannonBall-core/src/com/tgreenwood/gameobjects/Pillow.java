@@ -12,7 +12,7 @@ public class Pillow {
 	public Pillow(int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.position = new Vector2(285, 294);
+		this.position = new Vector2(285, 292);
 	}
 
 	public Vector2 getPosition() {
@@ -31,9 +31,9 @@ public class Pillow {
 		return width;
 	}
 
-	public boolean contain(float x, float y) {
+	public boolean contains(Vector2 point, float offset) {
 		Rectangle pillow = new Rectangle(position.x	, position.y, width, height / 3);
-		return pillow.contains(x, y);
+		return pillow.contains(point.x + offset, point.y + offset);
 	}
 	
 }

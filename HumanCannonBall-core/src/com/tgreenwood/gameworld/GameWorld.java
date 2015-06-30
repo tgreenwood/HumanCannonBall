@@ -11,11 +11,15 @@ public class GameWorld {
 	private Human human;
 	private Cannon cannon;
 	private Pillow pillow;
+	public int attempts;
+	public int level;
 	
 	public GameWorld() {
 		human = new Human(60, 60);
 		cannon = new Cannon(35, 35);
 		pillow = new Pillow(60, 60);
+		attempts = 0;
+		level = 1;
 	}
 	
 	public void update(float delta) {
@@ -36,4 +40,16 @@ public class GameWorld {
 		return pillow;
 	}
 
+	public void changeLevel() {
+		if (level < 3) {
+			level += 1;
+		} else {
+			level = 1;
+		}
+	}
+
+	public void changeAttemps() {
+		attempts += 1;
+	}
+	
 }

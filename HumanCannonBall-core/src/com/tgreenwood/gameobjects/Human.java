@@ -25,8 +25,8 @@ public class Human {
 	}
 	
 	private void init() {
-        this.position0 = new Vector2(-6, 292);
-        this.position = position0;
+		this.position0 = new Vector2(-16, 282);
+		this.position = position0;
         time = 0;
         setCanShot(false);
         setStop(false);
@@ -34,7 +34,7 @@ public class Human {
 	
     public void update(float delta) {
     	
-    	if (!getStop()) {
+    	if (!stoped()) {
     		if (canShot) {
     			time += delta / 2;
     			velocity.y = velocity0.y - acceleration.y * time;
@@ -42,7 +42,8 @@ public class Human {
     			position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
     			setAngle((float) Math.atan(velocity.y / velocity.x));
     		} else {
-    			this.velocity0 = new Vector2((float)(absVelocity * Math.cos(Math.toRadians(getAngle())) / 3), (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
+    			this.velocity0 = new Vector2((float)(absVelocity * Math.cos(Math.toRadians(getAngle())) / 3), 
+    										 (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
     			this.velocity = velocity0;
     		}
     	}
@@ -89,12 +90,13 @@ public class Human {
 		this.angle = angle;
 	}
 	
-	public void setVelocity() {
+	public void setVelocity(float absVel) {
+		this.absVelocity = absVel;
 		this.velocity0 = new Vector2((int)(absVelocity * Math.cos(getAngle())), (int)(absVelocity * Math.sin(getAngle())));
 		this.velocity = velocity0;
 	}
 
-	public boolean getStop() {
+	public boolean stoped() {
 		return stop;
 	}
 

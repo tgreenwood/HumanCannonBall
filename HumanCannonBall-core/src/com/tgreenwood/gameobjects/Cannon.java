@@ -25,7 +25,7 @@ public class Cannon {
     public void update(float delta) {
 
     	if (!fixedAngle) {
-    		angle = (float) (45 * (Math.sin(time) + 1) / 2 + 15); // degrees
+    		angle = (float) (45 * (Math.sin(time) + 1) / 2 + 20); // degrees
     		time += delta * 2;
     	}
     	
