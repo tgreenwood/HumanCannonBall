@@ -54,16 +54,23 @@ public class GameRenderer {
 		drawProgressBar(runTime);
 		drawPillow(runTime);
 		
-		// attempts text
-		AssetLoader.shadow.draw(batcher, "Attempts: " + Integer.toString(world.attempts), 10, 695);
-		AssetLoader.font.draw(batcher, "Attempts: " + Integer.toString(world.attempts), 10, 695);
+		writeAttempts(world.attempts);
+		writeLevel(world.level);
+		writePower(human.getAbsVelocity());
 
-		// power text
-		AssetLoader.shadow.draw(batcher, "Power: " + (Math.round(human.getAbsVelocity()) - 31) + "%", 10, 55);
-		AssetLoader.font.draw(batcher, "Power: " + (Math.round(human.getAbsVelocity()) - 31) + "%", 10, 55);
-		
 		batcher.end();
-        
+	}
+
+	private void writePower(float absVelocity) {
+		// power text
+		AssetLoader.shadow.draw(batcher, "Power: " + (Math.round(absVelocity) - 31) + "%", 10, 55);
+		AssetLoader.font.draw(batcher, "Power: " + (Math.round(absVelocity) - 31) + "%", 10, 55);
+	}
+
+	private void writeAttempts(int attempts) {
+		// attempts text
+		AssetLoader.shadow.draw(batcher, "Attempts: " + Integer.toString(attempts), 10, 695);
+		AssetLoader.font.draw(batcher, "Attempts: " + Integer.toString(attempts), 10, 695);
 	}
 	
 
@@ -74,6 +81,9 @@ public class GameRenderer {
 			cannon.reset();
 			world.changeAttemps();		
 			if (human.stoped()) {
+				if (world.shouldResetAttempts) {
+					world.initAttempts();
+				}
 	       		world.changeLevel();
         		pillow.setPosition(Level.levels.get(world.level));
 			}
@@ -113,8 +123,30 @@ public class GameRenderer {
         	// check for a collision
         	if (pillow.contains(human.getPosition(), 30)) {
         		human.setStop(true);
+        		if (world.level == 3) {
+        			world.shouldResetAttempts = true;
+        		}
+        		writeNextLevelProp();
         	}
         }
+	}
+
+	private void writeNextLevelProp() {
+		// proposal to move to the next level
+		String proposal = "";
+		if (world.level < 3) {
+			proposal = "Press SPACEBAR to continue";
+		} else {
+			proposal = "Press SPACEBAR to play again";
+		}
+		AssetLoader.shadow.draw(batcher, proposal, 95, 360);
+		AssetLoader.font.draw(batcher, proposal, 95, 360);			
+	}
+
+	private void writeLevel(int level) {
+		// level text
+		AssetLoader.shadow.draw(batcher, "Level: " + Integer.toString(level) +  " / 3", 10, 670);
+		AssetLoader.font.draw(batcher, "Level: " + Integer.toString(level) + " / 3", 10, 670);
 	}
 	
 	private void drawCannon(float runTime) {

@@ -13,12 +13,13 @@ public class GameWorld {
 	private Pillow pillow;
 	public int attempts;
 	public int level;
+	public boolean shouldResetAttempts;
 	
 	public GameWorld() {
 		human = new Human(60, 60);
 		cannon = new Cannon(35, 35);
 		pillow = new Pillow(60, 60);
-		attempts = 0;
+		initAttempts();
 		level = 1;
 	}
 	
@@ -51,5 +52,11 @@ public class GameWorld {
 	public void changeAttemps() {
 		attempts += 1;
 	}
+	
+	public void initAttempts() {
+		attempts = 0;
+		shouldResetAttempts = false;
+	}
+	
 	
 }
