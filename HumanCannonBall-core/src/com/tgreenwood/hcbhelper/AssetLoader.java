@@ -15,11 +15,13 @@ public class AssetLoader {
 	public static Texture baseT;
 	public static Texture progressBarT;
 	public static Texture pillowT;
+	public static Texture windT;
 	
 	public static TextureRegion human;	
 	public static TextureRegion cannon;	
 	public static TextureRegion base;
 	public static TextureRegion pillow;
+	public static TextureRegion wind0, wind1, wind2, wind3, wind4, wind5;
 	public static BitmapFont font, shadow;
 	
 	public static NinePatch empty;
@@ -62,6 +64,14 @@ public class AssetLoader {
 		pillowT = new Texture(Gdx.files.internal("data/pillow.png"));
 		pillow = new TextureRegion(pillowT);
 		
+		windT = new Texture(Gdx.files.internal("data/wind.png"));
+		wind0 = new TextureRegion(windT, 0, 54, 18, 10);
+		wind1 = new TextureRegion(windT, 19, 54, 15, 10);
+		wind2 = new TextureRegion(windT, 33, 54, 15, 10);
+		wind3 = new TextureRegion(windT, 33, 42, 15, 12);
+		wind4 = new TextureRegion(windT, 19, 42, 15, 12);		
+		wind5 = new TextureRegion(windT, 0, 42, 15, 12);
+		
 		font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
 		font.getData().setScale(.3f, .3f);
 		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
@@ -78,8 +88,9 @@ public class AssetLoader {
 		baseT.dispose();
 		progressBarT.dispose();
 		pillowT.dispose();
+		windT.dispose();
 		font.dispose();
-		shadow.dispose();		
+		shadow.dispose();
 	}
 	
 }

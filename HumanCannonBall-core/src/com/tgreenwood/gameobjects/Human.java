@@ -14,7 +14,7 @@ public class Human {
 	private int height;
 	
 	private float time;
-	private boolean canShot = false;
+	private boolean canMove = false;
 	private boolean stop = false;
 	
 	public Human(int width, int height) {
@@ -35,12 +35,12 @@ public class Human {
     public void update(float delta) {
     	
     	if (!stoped()) {
-    		if (canShot) {
+    		if (canMove) {
     			time += delta / 2;
     			velocity.y = velocity0.y - acceleration.y * time;
     			position.x = position0.x + velocity0.x * time;
     			position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
-    			setAngle((float) Math.atan(velocity.y / velocity.x));
+    			setAngle((float) Math.atan(velocity.y / (velocity.x)));
     		} else {
     			this.velocity0 = new Vector2((float)(absVelocity * Math.cos(Math.toRadians(getAngle())) / 3), 
     										 (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
@@ -63,11 +63,11 @@ public class Human {
     }
 
     public boolean canShot() {
-    	return canShot;
+    	return canMove;
     }
     
     public void setCanShot(boolean value) {
-    	canShot = value;
+    	canMove = value;
     }
     
     public void reset() {
@@ -76,10 +76,6 @@ public class Human {
 
 	public float getAbsVelocity() {
 		return absVelocity;
-	}
-
-	public void setAbsVelocity(float absVelocity) {
-		this.absVelocity = absVelocity;
 	}
 
 	public float getAngle() {
@@ -103,6 +99,5 @@ public class Human {
 	public void setStop(boolean stop) {
 		this.stop = stop;
 	}
-	
     
 }
