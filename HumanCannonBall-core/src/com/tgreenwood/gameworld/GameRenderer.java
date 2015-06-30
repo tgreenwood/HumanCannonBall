@@ -54,6 +54,14 @@ public class GameRenderer {
 		drawProgressBar(runTime);
 		drawPillow(runTime);
 		
+		// attempts text
+		AssetLoader.shadow.draw(batcher, "Attempts: " + Integer.toString(world.attempts), 10, 695);
+		AssetLoader.font.draw(batcher, "Attempts: " + Integer.toString(world.attempts), 10, 695);
+
+		// power text
+		AssetLoader.shadow.draw(batcher, "Power: " + (Math.round(human.getAbsVelocity()) - 31) + "%", 10, 55);
+		AssetLoader.font.draw(batcher, "Power: " + (Math.round(human.getAbsVelocity()) - 31) + "%", 10, 55);
+		
 		batcher.end();
         
 	}
@@ -102,6 +110,7 @@ public class GameRenderer {
         		sprite.draw(batcher);
         	}
         	
+        	// check for a collision
         	if (pillow.contains(human.getPosition(), 30)) {
         		human.setStop(true);
         	}
