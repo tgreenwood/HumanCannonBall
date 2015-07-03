@@ -22,11 +22,11 @@ public class Cannon {
 		this.height = height;
 	}
 	
-    public void update(float delta) {
+    public void update(float runTime) {
 
     	if (!fixedAngle) {
     		angle = (float) (45 * (Math.sin(time) + 1) / 2 + 20); // degrees
-    		time += delta * 2;
+    		time = runTime * 2;
     	}
     	
     }

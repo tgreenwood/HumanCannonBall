@@ -2,6 +2,7 @@ package com.tgreenwood.gameworld;
 
 import com.tgreenwood.gameobjects.Cannon;
 import com.tgreenwood.gameobjects.Human;
+import com.tgreenwood.gameobjects.Level;
 import com.tgreenwood.gameobjects.Pillow;
 import com.tgreenwood.gameobjects.Wind;
 import com.tgreenwood.hcbhelper.InputHandler;
@@ -16,20 +17,61 @@ public class GameWorld {
 	public int attempts;
 	public int level;
 	public boolean shouldResetAttempts;
+	private InputHandler inputHandler;
+	private float runTime; 
 	
-	public GameWorld() {
+	public GameWorld(InputHandler inputHandler) {
 		human = new Human(60, 60);
 		cannon = new Cannon(35, 35);
 		pillow = new Pillow(60, 60);
 		wind = new Wind();
+		this.inputHandler = inputHandler;
 		initAttempts();
 		level = 1;
+		runTime = 0;
 	}
 	
 	public void update(float delta) {
+		runTime += delta;
 		human.update(delta);
-		cannon.update(delta);
-		InputHandler.update();
+		cannon.update(runTime);
+		checkCommand(runTime);
+		
+	}
+
+	private void checkCommand(float runTime) {
+		
+		if (inputHandler.shouldRestart()) {
+			inputHandler.reset();
+			cannon.reset();
+			wind.reset();
+			changeAttemps();	
+			if (human.stoped()) {
+				if (shouldResetAttempts) {
+					initAttempts();
+				}
+	       		changeLevel();
+        		pillow.setPosition(Level.levels.get(level));
+			}
+			human.reset();
+				
+		}
+		
+		if (!inputHandler.isPickedInitVelocity()){
+			human.setVelocity(Math.round((50 * (1 + Math.sin(runTime))) + 1) + 30 + wind.getVelocity());
+		} else {
+			human.setCanShot(true);
+			if (human.isShotOn()) {
+				human.setJustShot(true);
+			}
+		}
+
+		if (!inputHandler.isPickedAngle()) {
+			human.setAngle(cannon.getAngle());
+		} else {
+			cannon.setFixedAngle(true);
+		}
+		
 	}
 	
 	public Human getHuman() {

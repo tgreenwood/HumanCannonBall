@@ -1,61 +1,76 @@
 package com.tgreenwood.hcbhelper;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 
-public class InputHandler {
-
-	private static boolean pickedAngle = false;
-	private static boolean pickedInitVelocity = false;
-	private static boolean restart = false;
+public class InputHandler extends InputAdapter {
 	
-	public static void update() {
+	private boolean pickedAngle = false;
+	private boolean pickedInitVelocity = false;
+	private boolean restart = false;
+
+	@Override
+	public boolean keyDown(int keycode) {
 		
-		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && isPickedAngle() && isPickedInitVelocity()) {
-			setRestart(true);
-			return;
+		if (keycode == Keys.SPACE) {
+			checkActions();
 		}
-		
-		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && !isPickedAngle()) {
-			setPickedAngle(true);
-			return;
-		}
-		
-		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && !isPickedInitVelocity()) {
-			setPickedInitVelocity(true);
-			return;
-		}
-		
+		return false;
 	}
 
-	public static boolean isPickedAngle() {
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		
+		if (button == Buttons.LEFT) {
+			checkActions();
+		}
+		return true;
+	}
+
+
+	public boolean isPickedAngle() {
 		return pickedAngle;
 	}
 
-	public static void setPickedAngle(boolean pickedAngle) {
-		InputHandler.pickedAngle = pickedAngle;
+	public void setPickedAngle(boolean pickedAngle) {
+		this.pickedAngle = pickedAngle;
 	}
 
-	public static boolean isPickedInitVelocity() {
+	public boolean isPickedInitVelocity() {
 		return pickedInitVelocity;
 	}
 
-	public static void setPickedInitVelocity(boolean pickedInitVelocity) {
-		InputHandler.pickedInitVelocity = pickedInitVelocity;
+	public void setPickedInitVelocity(boolean pickedInitVelocity) {
+		this.pickedInitVelocity = pickedInitVelocity;
 	}
 
-	public static boolean shouldRestart() {
+	public boolean shouldRestart() {
 		return restart;
 	}
 
-	public static void setRestart(boolean restart) {
-		InputHandler.restart = restart;
+	public void setRestart(boolean restart) {
+		this.restart = restart;
 	}
 	
-	public static void reset() {
+	public void reset() {
 		restart = false;
 		pickedAngle = false;
 		pickedInitVelocity = false;
+	}
+	
+	public boolean checkActions() {
+		
+		if (isPickedAngle() && isPickedInitVelocity()) {
+			setRestart(true);
+		} else if (!isPickedAngle()) {
+			setPickedAngle(true);
+		} else if (!isPickedInitVelocity()) {
+			setPickedInitVelocity(true);
+		}
+		
+		return true;
+		
 	}
 
 }

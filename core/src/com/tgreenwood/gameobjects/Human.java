@@ -1,6 +1,7 @@
 package com.tgreenwood.gameobjects;
 
 import com.badlogic.gdx.math.Vector2;
+import com.tgreenwood.hcbhelper.AssetLoader;
 
 public class Human {
 
@@ -16,6 +17,8 @@ public class Human {
 	private float time;
 	private boolean canMove = false;
 	private boolean stop = false;
+	private boolean justShot = false;
+	private boolean shotOn = true;
 	
 	public Human(int width, int height) {
         this.width = width;
@@ -30,12 +33,23 @@ public class Human {
         time = 0;
         setCanShot(false);
         setStop(false);
+        setJustShot(false);
+        setShotOn(true);
 	}
 	
     public void update(float delta) {
     	
     	if (!stoped()) {
     		if (canMove) {
+    			
+    			//sound shot on
+    			if (justShot) {
+    				AssetLoader.shot.play();
+    				setJustShot(false);
+    				setShotOn(false);
+    			}
+    			
+    			//calculate position, velocity and angle
     			time += delta / 2;
     			velocity.y = velocity0.y - acceleration.y * time;
     			position.x = position0.x + velocity0.x * time;
@@ -98,6 +112,18 @@ public class Human {
 
 	public void setStop(boolean stop) {
 		this.stop = stop;
+	}
+
+	public void setJustShot(boolean justShot) {
+		this.justShot = justShot;
+	}
+
+	public boolean isShotOn() {
+		return shotOn;
+	}
+
+	public void setShotOn(boolean shotOn) {
+		this.shotOn = shotOn;
 	}
     
 }

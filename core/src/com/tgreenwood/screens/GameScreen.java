@@ -4,16 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.tgreenwood.gameworld.GameRenderer;
 import com.tgreenwood.gameworld.GameWorld;
+import com.tgreenwood.hcbhelper.AssetLoader;
+import com.tgreenwood.hcbhelper.InputHandler;
 
 public class GameScreen implements Screen {
 	
+	private InputHandler inputHandler;
     private GameWorld world;
     private GameRenderer renderer;
-    private float runTime = 0;
     
     public GameScreen() {
-        world = new GameWorld();
+    	inputHandler = new InputHandler();
+        world = new GameWorld(inputHandler);
         renderer = new GameRenderer(world);
+        
+        AssetLoader.noiseCars.play();
+        AssetLoader.noiseTrain.play();
+        
+        Gdx.input.setInputProcessor(inputHandler);
     }
 
 	@Override
@@ -23,9 +31,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		runTime += delta;
         world.update(delta);
-        renderer.render(runTime);
+        renderer.render(delta);
 	}
 
 	@Override

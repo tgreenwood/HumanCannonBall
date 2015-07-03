@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tgreenwood.gameobjects.Cannon;
 import com.tgreenwood.gameobjects.Human;
-import com.tgreenwood.gameobjects.Level;
 import com.tgreenwood.gameobjects.Pillow;
 import com.tgreenwood.gameobjects.Wind;
 import com.tgreenwood.hcbhelper.AssetLoader;
-import com.tgreenwood.hcbhelper.InputHandler;
 
 public class GameRenderer {
 	
@@ -26,6 +24,8 @@ public class GameRenderer {
 	private Pillow pillow;
 	private Wind wind;
 	
+	private int runTime;
+	
 	public GameRenderer(GameWorld world) {
 		this.world = world;
 		cam = new OrthographicCamera();
@@ -33,8 +33,8 @@ public class GameRenderer {
 		batcher = new SpriteBatch();
 		batcher.setProjectionMatrix(cam.combined);
 		sprite = new Sprite(AssetLoader.human);
-		
 		initGameObjects();
+		runTime = 0;
 	}
 
 	private void initGameObjects() {
@@ -45,18 +45,18 @@ public class GameRenderer {
 	}
 	
 
-	public void render(float runTime) {
+	public void render(float delta) {
 		
-		checkInput(runTime);
+		runTime += delta;
 		
 		batcher.begin();
 		
 		drawBackground(runTime);
-		drawHuman(runTime);
-		drawCannon(runTime);
-		drawProgressBar(runTime);
-		drawPillow(runTime);
-		drawWind(runTime);
+		drawHuman();
+		drawCannon();
+		drawProgressBar();
+		drawPillow();
+		drawWind();
 		
 		writeAttempts(world.attempts);
 		writeLevel(world.level);
@@ -66,46 +66,12 @@ public class GameRenderer {
 		batcher.end();
 	}
 
-
-	private void checkInput(float runTime) {
-		
-		if (InputHandler.shouldRestart()) {
-			InputHandler.reset();
-			cannon.reset();
-			wind.reset();
-			world.changeAttemps();	
-			if (human.stoped()) {
-				if (world.shouldResetAttempts) {
-					world.initAttempts();
-				}
-	       		world.changeLevel();
-        		pillow.setPosition(Level.levels.get(world.level));
-			}
-			human.reset();
-				
-		}
-		
-		if (!InputHandler.isPickedInitVelocity()){
-			human.setVelocity(Math.round((50 * (1 + Math.sin(runTime))) + 1) + 30 + wind.getVelocity());
-//			human.correctVelocity(wind.getVelocity());
-		} else {
-			human.setCanShot(true);
-		}
-
-		if (!InputHandler.isPickedAngle()) {
-			human.setAngle(cannon.getAngle());
-		} else {
-			cannon.setFixedAngle(true);
-		}
-		
-	}
-
 	private void drawBackground(float runTime) {
 		// render background
 		batcher.draw(AssetLoader.backgroundAnimation.getKeyFrame(runTime), 0, 0, WIDTH, HEIGHT);
 	}
 	
-	private void drawHuman(float runTime) {
+	private void drawHuman() {
 		// render human
         if (human.canShot()) {
         	
@@ -126,7 +92,7 @@ public class GameRenderer {
         }
 	}
 
-	private void drawCannon(float runTime) {
+	private void drawCannon() {
 		// render cannon
 		batcher.draw(AssetLoader.cannon, 
 				cannon.getPosition().x, cannon.getPosition().y, 
@@ -138,19 +104,18 @@ public class GameRenderer {
 		batcher.draw(AssetLoader.base, cannon.getBasePosition().x, cannon.getBasePosition().y, 40, 40);
 	}
 
-	private void drawProgressBar(float runTime) {
+	private void drawProgressBar() {
 		// render progress velocity bar
 		AssetLoader.empty.draw(batcher, 10, 10, 100, 20);
 		AssetLoader.full.draw(batcher, 10, 10, human.getAbsVelocity() - 30 - wind.getVelocity(), 20);
-//		AssetLoader.font.draw(batcher, Float.toString(initVelocity) + " %", 43, 25);		
 	}
 	
-	private void drawPillow(float runTime) {
+	private void drawPillow() {
 		// render pillow
 		batcher.draw(AssetLoader.pillow, pillow.getPosition().x, pillow.getPosition().y);		
 	}
 
-	private void drawWind(float runTime) {
+	private void drawWind() {
 		// render wind arrow
 		switch (wind.getVelocityIdx()) {
 		case 0:

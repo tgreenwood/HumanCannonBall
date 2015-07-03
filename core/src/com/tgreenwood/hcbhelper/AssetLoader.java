@@ -1,6 +1,8 @@
 package com.tgreenwood.hcbhelper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,7 +30,9 @@ public class AssetLoader {
 	public static NinePatch full;
 	
 	public static Animation backgroundAnimation;
-	
+	public static Music noiseCars;
+	public static Music noiseTrain; 
+	public static Sound shot;
 
 	public static void load() {
 		
@@ -77,6 +81,13 @@ public class AssetLoader {
 		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
 		shadow.getData().setScale(.3f, .3f);
 		
+		noiseCars = Gdx.audio.newMusic(Gdx.files.internal("data/cityNoises.mp3"));
+		noiseCars.setLooping(true);
+		noiseTrain = Gdx.audio.newMusic(Gdx.files.internal("data/metroNose.mp3"));
+		noiseTrain.setLooping(true);
+		
+		shot = Gdx.audio.newSound(Gdx.files.internal("data/shot.mp3"));
+		
 	}
 
 	public static void dispose() {
@@ -91,6 +102,9 @@ public class AssetLoader {
 		windT.dispose();
 		font.dispose();
 		shadow.dispose();
+		noiseCars.dispose();
+		noiseTrain.dispose();
+		shot.dispose();
 	}
 	
 }
