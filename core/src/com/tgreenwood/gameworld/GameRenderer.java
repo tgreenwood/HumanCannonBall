@@ -24,7 +24,7 @@ public class GameRenderer {
 	private Pillow pillow;
 	private Wind wind;
 	
-	private int runTime;
+	private float runTime;
 	
 	public GameRenderer(GameWorld world) {
 		this.world = world;
@@ -62,6 +62,7 @@ public class GameRenderer {
 		writeLevel(world.level);
 		writePower(human.getAbsVelocity());
 		writeWindVelocity(wind.getVelocity());
+		writeNextLevelProposal();
 
 		batcher.end();
 	}
@@ -75,20 +76,13 @@ public class GameRenderer {
 		// render human
         if (human.canShot()) {
         	
-        	if (human.getPosition().x > 10) {
+        	if (human.getPosition().x > 0) {
         		sprite.setPosition(human.getPosition().x, human.getPosition().y);
         		sprite.setRotation(human.getAngle() * 180f / (float)Math.PI - 90f);
+        		sprite.setScale(0.5f);
         		sprite.draw(batcher);
         	}
         	
-        	// check for a collision
-        	if (pillow.contains(human.getPosition(), 30)) {
-        		human.setStop(true);
-        		if (world.level == 3) {
-        			world.shouldResetAttempts = true;
-        		}
-        		writeNextLevelProp();
-        	}
         }
 	}
 
@@ -101,7 +95,7 @@ public class GameRenderer {
 				1, 1, 
 				cannon.getAngle());
 		// render cannon base
-		batcher.draw(AssetLoader.base, cannon.getBasePosition().x, cannon.getBasePosition().y, 40, 40);
+		batcher.draw(AssetLoader.base, cannon.getBasePosition().x + 10, cannon.getBasePosition().y, 20, 20);
 	}
 
 	private void drawProgressBar() {
@@ -139,16 +133,19 @@ public class GameRenderer {
 		}
 	}
 	
-	private void writeNextLevelProp() {
+	private void writeNextLevelProposal() {
 		// proposal to move to the next level
-		String proposal = "";
-		if (world.level < 3) {
-			proposal = "Press SPACEBAR to continue";
-		} else {
-			proposal = "Press SPACEBAR to play again";
-		}
-		AssetLoader.shadow.draw(batcher, proposal, 95, 360);
-		AssetLoader.font.draw(batcher, proposal, 95, 360);			
+		// check for a collision
+    	if (world.humanOnPillow()) {
+    		String proposal = "";
+    		if (world.level < 3) {
+    			proposal = "Press SPACEBAR to continue";
+    		} else {
+    			proposal = "Press SPACEBAR to play again";
+    		}
+    		AssetLoader.shadow.draw(batcher, proposal, 95, 360);
+    		AssetLoader.font.draw(batcher, proposal, 95, 360);			
+    	}
 	}
 
 	private void writeLevel(int level) {

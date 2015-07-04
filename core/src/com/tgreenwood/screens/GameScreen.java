@@ -18,6 +18,7 @@ public class GameScreen implements Screen {
         world = new GameWorld(inputHandler);
         renderer = new GameRenderer(world);
         
+
         AssetLoader.noiseCars.play();
         AssetLoader.noiseTrain.play();
         

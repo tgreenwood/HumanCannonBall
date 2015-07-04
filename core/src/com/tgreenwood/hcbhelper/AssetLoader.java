@@ -33,12 +33,14 @@ public class AssetLoader {
 	public static Music noiseCars;
 	public static Music noiseTrain; 
 	public static Sound shot;
-
+	public static Sound land;
+	public static Sound cry;
+	
 	public static void load() {
 		
 		
 		for (int i = 0; i < textures.length; i++) {
-			String pathFile = String.format("data/city%d.png", i);
+			String pathFile = String.format("pic/city%d.png", i);
 			textures[i] = new Texture(Gdx.files.internal(pathFile));
 		}
 		
@@ -51,24 +53,24 @@ public class AssetLoader {
 		backgroundAnimation = new Animation(0.14f, backgrounds);
 		backgroundAnimation.setPlayMode(Animation.PlayMode.LOOP);
 		
-		humanT = new Texture(Gdx.files.internal("data/human.png"));
+		humanT = new Texture(Gdx.files.internal("pic/human.png"));
 		human = new TextureRegion(humanT);
 		
-		cannonT = new Texture(Gdx.files.internal("data/cannon.png"));
+		cannonT = new Texture(Gdx.files.internal("pic/cannon.png"));
 		cannon = new TextureRegion(cannonT);
 		
-		baseT = new Texture(Gdx.files.internal("data/base.png"));
+		baseT = new Texture(Gdx.files.internal("pic/base.png"));
 		base = new TextureRegion(baseT);
 		
-		progressBarT = new Texture(Gdx.files.internal("data/prgBar.png"));
+		progressBarT = new Texture(Gdx.files.internal("pic/prgBar.png"));
 		empty = new NinePatch(new TextureRegion(progressBarT, 0, 40, 12, 12), 4, 4, 4, 4);
 		full = new NinePatch(new TextureRegion(progressBarT, 0, 52, 6, 12), 0, 0, 0, 0);
 		font=new BitmapFont();
 		
-		pillowT = new Texture(Gdx.files.internal("data/pillow.png"));
+		pillowT = new Texture(Gdx.files.internal("pic/pillow.png"));
 		pillow = new TextureRegion(pillowT);
 		
-		windT = new Texture(Gdx.files.internal("data/wind.png"));
+		windT = new Texture(Gdx.files.internal("pic/wind.png"));
 		wind0 = new TextureRegion(windT, 0, 54, 18, 10);
 		wind1 = new TextureRegion(windT, 19, 54, 15, 10);
 		wind2 = new TextureRegion(windT, 33, 54, 15, 10);
@@ -76,17 +78,21 @@ public class AssetLoader {
 		wind4 = new TextureRegion(windT, 19, 42, 15, 12);		
 		wind5 = new TextureRegion(windT, 0, 42, 15, 12);
 		
-		font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
+		font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
 		font.getData().setScale(.3f, .3f);
-		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
+		shadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
 		shadow.getData().setScale(.3f, .3f);
 		
-		noiseCars = Gdx.audio.newMusic(Gdx.files.internal("data/cityNoises.mp3"));
+		noiseCars = Gdx.audio.newMusic(Gdx.files.internal("sound/cityNoises.mp3"));
+        noiseCars.setVolume(0.3f);
 		noiseCars.setLooping(true);
-		noiseTrain = Gdx.audio.newMusic(Gdx.files.internal("data/metroNose.mp3"));
+		noiseTrain = Gdx.audio.newMusic(Gdx.files.internal("sound/metroNose.mp3"));
+		noiseTrain.setVolume(0.4f);
 		noiseTrain.setLooping(true);
 		
-		shot = Gdx.audio.newSound(Gdx.files.internal("data/shot.mp3"));
+		shot = Gdx.audio.newSound(Gdx.files.internal("sound/shot.mp3"));
+		land = Gdx.audio.newSound(Gdx.files.internal("sound/impact.mp3"));		
+		cry = Gdx.audio.newSound(Gdx.files.internal("sound/fallingMan.mp3"));
 		
 	}
 
@@ -105,6 +111,7 @@ public class AssetLoader {
 		noiseCars.dispose();
 		noiseTrain.dispose();
 		shot.dispose();
+		land.dispose();
 	}
 	
 }

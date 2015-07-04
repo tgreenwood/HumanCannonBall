@@ -17,8 +17,11 @@ public class Human {
 	private float time;
 	private boolean canMove = false;
 	private boolean stop = false;
-	private boolean justShot = false;
-	private boolean shotOn = true;
+	private boolean justFired = false;
+	private boolean fired = true;
+	private boolean justLanded = false;
+	private boolean cry = false;
+	private boolean criedBefore = false;
 	
 	public Human(int width, int height) {
         this.width = width;
@@ -28,13 +31,16 @@ public class Human {
 	}
 	
 	private void init() {
-		this.position0 = new Vector2(-16, 282);
+		this.position0 = new Vector2(-16, 276);
 		this.position = position0;
         time = 0;
         setCanShot(false);
         setStop(false);
-        setJustShot(false);
-        setShotOn(true);
+        setJustFired(false);
+        setFired(true);
+        setJustLanded(false);
+        setCry(false);
+        setCriedBefore(false);
 	}
 	
     public void update(float delta) {
@@ -42,15 +48,23 @@ public class Human {
     	if (!stoped()) {
     		if (canMove) {
     			
-    			//sound shot on
-    			if (justShot) {
+    			// sound shot on
+    			if (justFired) {
+    				AssetLoader.cry.stop();
     				AssetLoader.shot.play();
-    				setJustShot(false);
-    				setShotOn(false);
+    				setJustFired(false);
+    				setFired(false);
     			}
     			
-    			//calculate position, velocity and angle
-    			time += delta / 2;
+    			// sound cry on
+    			if (cry) {
+    				AssetLoader.cry.play(0.2f);
+    				setCry(false);
+    				setCriedBefore(true);
+    			}
+    			
+    			// calculate position, velocity and angle
+    			time += delta / 4;
     			velocity.y = velocity0.y - acceleration.y * time;
     			position.x = position0.x + velocity0.x * time;
     			position.y = position0.y +  velocity0.y * time - acceleration.y * time * time / 2;
@@ -60,6 +74,14 @@ public class Human {
     										 (float)(absVelocity * Math.sin(Math.toRadians(getAngle())) / 3));
     			this.velocity = velocity0;
     		}
+    	} else {
+    		
+			// sound pillow interaction on
+			if (justLanded) {
+				AssetLoader.land.play();
+				setJustLanded(false);
+			}
+
     	}
     	
     }
@@ -114,16 +136,40 @@ public class Human {
 		this.stop = stop;
 	}
 
-	public void setJustShot(boolean justShot) {
-		this.justShot = justShot;
+	public void setJustFired(boolean justShot) {
+		this.justFired = justShot;
 	}
 
-	public boolean isShotOn() {
-		return shotOn;
+	public boolean fired() {
+		return fired;
 	}
 
-	public void setShotOn(boolean shotOn) {
-		this.shotOn = shotOn;
+	public void setFired(boolean shotOn) {
+		this.fired = shotOn;
+	}
+
+	public boolean justLanded() {
+		return justLanded;
+	}
+
+	public void setJustLanded(boolean justLanded) {
+		this.justLanded = justLanded;
+	}
+
+	public boolean shouldCry() {
+		return cry;
+	}
+
+	public void setCry(boolean cry) {
+		this.cry = cry;
+	}
+
+	public boolean getCriedBefore() {
+		return criedBefore;
+	}
+	
+	public void setCriedBefore(boolean crieadBefore) {
+		this.criedBefore = crieadBefore;
 	}
     
 }
